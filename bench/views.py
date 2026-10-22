@@ -24,7 +24,7 @@ def code_view(src, dst):
     for project in catalog["projects"]:
         project["documents"] = [d for d in project.get("documents", []) if d in CODE_DOCUMENTS]
         project["history_status"] = "excluded"
-    (root / "catalog.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding="utf-8")
+    (root / "catalog.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     index = (root / "INDEX.md").read_text(encoding="utf-8")
     index = re.sub(r"\| \[\d+ 份会话[^|]*\|$", "| 本组不提供 |", index, flags=re.M)
     (root / "INDEX.md").write_text(index, encoding="utf-8", newline="\n")

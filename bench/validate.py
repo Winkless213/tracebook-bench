@@ -41,7 +41,8 @@ def validate(task_dir, repos):
             result = classify(base, regressed, task["hidden_tests"])
             result["suite_errors"] = errors + errors2
     task["validation"] = result
-    (task_dir / "task.json").write_text(json.dumps(task, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (task_dir / "task.json").write_text(json.dumps(task, ensure_ascii=False, indent=2) + "\n", encoding="utf-8",
+                                        newline="\n")
     return task["id"], result
 
 

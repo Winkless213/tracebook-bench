@@ -31,5 +31,5 @@ if __name__ == "__main__":
     for d in map(Path, dirs):
         task = json.loads((d / "task.json").read_text(encoding="utf-8"))
         task["precedent"] = precedent(task, knowledge_root)
-        (d / "task.json").write_text(json.dumps(task, ensure_ascii=False, indent=2), encoding="utf-8")
+        (d / "task.json").write_text(json.dumps(task, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
         print(task["id"], json.dumps(task["precedent"], ensure_ascii=False))

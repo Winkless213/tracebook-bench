@@ -125,10 +125,9 @@ def run_one(task_dir, task, repo, condition, attempt, args, key):
               "knowledge_use": knowledge_use(metrics), "diff_lines": diff.count("\n"), "changed_files": changed,
               "suites_run": [s["name"] for s in suites], "suite_errors": suite_errors, **verdict}
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "events.jsonl").write_text(events, encoding="utf-8")
-    (out_dir / "stderr.log").write_text(stderr, encoding="utf-8")
-    (out_dir / "agent.diff").write_text(diff, encoding="utf-8")
-    (out_dir / "record.json").write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8")
+    for name, text in (("events.jsonl", events), ("stderr.log", stderr), ("agent.diff", diff),
+                       ("record.json", json.dumps(record, ensure_ascii=False, indent=2))):
+        (out_dir / name).write_text(text, encoding="utf-8", newline="\n")
     return record
 
 

@@ -103,7 +103,7 @@ def main():
     summary = summarize(records, task_meta(args.tasks)) | {"infra_failures_excluded": infra}
     text = json.dumps(summary, ensure_ascii=False, indent=2)
     if args.out:
-        Path(args.out).write_text(text, encoding="utf-8")
+        Path(args.out).write_text(text, encoding="utf-8", newline="\n")
     print(text)
 
 

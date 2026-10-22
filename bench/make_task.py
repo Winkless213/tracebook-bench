@@ -31,5 +31,6 @@ def make(clone, repo, base, sha, task_dir):
     subject = git(clone, "log", "-1", "--format=%s", sha).strip()
     spec = {"id": task_dir.name, "repo": repo, "kind": "historical", "source_commit": sha, "base_commit": base,
             "subject": subject, "src_files": src, "hidden_tests": hidden}
-    (task_dir / "task.json").write_text(json.dumps(spec, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (task_dir / "task.json").write_text(json.dumps(spec, ensure_ascii=False, indent=2) + "\n", encoding="utf-8",
+                                        newline="\n")
     return spec
