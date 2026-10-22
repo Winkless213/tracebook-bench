@@ -65,7 +65,7 @@
 
 ## 任务集冻结
 
-2026-10-22 冻结，共 31 题：fashion-vendure 26、container-loading-planner 4（公开仓库上的合成任务）、trade-copilot 1。先例标签 history 14、curated 12、none 5。清单由 `python -m bench.manifest` 生成，记录每题的 id、仓库、先例标签和题目目录的 sha256；清单文件的 sha256 为 `4a52fbae22ad0727879afccb59f19bb59d37ecb4b305da2d9af97e114e268ec9`。
+2026-10-22 冻结，共 31 题：fashion-vendure 26、container-loading-planner 4（公开仓库上的合成任务）、trade-copilot 1。先例标签 history 14、curated 12、none 5。清单由 `python -m bench.manifest` 生成，记录每题的 id、仓库、先例标签和题目目录的 sha256；清单文件的 sha256 为 `f2b8822e5bbccdfb947e68c4847466684e0b89abd3fcef9bed413cb588980c35`。这是把题目文件的换行统一为 LF 后重算的值，题目内容没有变化；此前在 Windows 上按 CRLF 算出的值是 `4a52fbae22ad0727879afccb59f19bb59d37ecb4b305da2d9af97e114e268ec9`。
 
 ## 偏离记录
 
