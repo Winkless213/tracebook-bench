@@ -1,0 +1,28 @@
+{
+ "numTotalTests": 18,
+ "numFailedTests": 0,
+ "testResults": [
+  {
+   "name": "/workspace/packages/core/test/unit/report.spec.ts",
+   "status": "failed",
+   "message": "connect ECONNREFUSED ::1:5432",
+   "assertionResults": [
+    {
+     "title": "adds up rows from every source",
+     "status": "skipped"
+    }
+   ]
+  },
+  {
+   "name": "/workspace/packages/core/test/unit/parser.spec.ts",
+   "status": "passed",
+   "message": "",
+   "assertionResults": [
+    {
+     "title": "returns an empty list for empty input",
+     "status": "passed"
+    }
+   ]
+  }
+ ]
+}
