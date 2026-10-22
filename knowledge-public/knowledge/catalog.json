@@ -1,0 +1,20 @@
+{
+  "projects": [
+    {
+      "name": "container-loading-planner",
+      "url": "https://github.com/Winkless213/container-loading-planner.git",
+      "branch": "master",
+      "commit": "ee4bd9325b440246b78b0cc604a253e66ade7da7",
+      "status": "ready",
+      "input_files": 23,
+      "documents": [
+        "CODEBASE.md"
+      ],
+      "history_sessions": 2,
+      "history_items": 10,
+      "topics_status": "ready",
+      "history_status": "excluded",
+      "sync_status": "ok"
+    }
+  ]
+}

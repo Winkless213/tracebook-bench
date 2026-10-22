@@ -1,0 +1,62 @@
+{
+  "name": "container-loading-planner",
+  "url": "https://github.com/Winkless213/container-loading-planner.git",
+  "branch": "master",
+  "commit": "ee4bd9325b440246b78b0cc604a253e66ade7da7",
+  "redaction_policy": "chinese-credentials-v2",
+  "model": "gpt-6-astra",
+  "effort": "high",
+  "input_files": 23,
+  "batches": 1,
+  "all_batches_completed": true,
+  "tracked_files": 24,
+  "model_usage": [
+    {
+      "input_tokens": 222207,
+      "output_tokens": 11888
+    }
+  ],
+  "model_runs": [
+    {
+      "model": "gpt-6-astra",
+      "effort": "high",
+      "input_sha256": "8c5244621cc031998cdea98d40e9efc114b89016059c77186ea3f4080310d670",
+      "generation_commit": "ee4bd9325b440246b78b0cc604a253e66ade7da7",
+      "cache_key_sha256": "8c5244621cc031998cdea98d40e9efc114b89016059c77186ea3f4080310d670",
+      "reused": null,
+      "api": "responses",
+      "provider_model": "gpt-6-astra",
+      "provider_response_id": "resp_06ba9574d6bc3820016ad70fc272a8819592b4d0802907d87b"
+    }
+  ],
+  "source_paths": [
+    ".editorconfig",
+    ".gitignore",
+    "CHANGELOG.md",
+    "ContainerPack.spec",
+    "PRODUCT_PLAN.md",
+    "README.md",
+    "_frontend.py",
+    "_packer.py",
+    "_validator.py",
+    "_visualizer.py",
+    "app.py",
+    "browser_smoke.py",
+    "build.bat",
+    "preflight.py",
+    "requirements-dev.txt",
+    "requirements.txt",
+    "tests/test_app_contract.py",
+    "tests/test_browser_smoke_contract.py",
+    "tests/test_packer.py",
+    "tests/test_preflight.py",
+    "tests/test_text_quality.py",
+    "tests/test_validator.py",
+    "text_quality.py"
+  ],
+  "security_excluded": [],
+  "not_packed": [
+    "docs/screenshot.png"
+  ],
+  "codebase_sha256": "25bd42a63c28ced33af7eaa898ee61df364fb5c7d273b67f45a1461132f5a464"
+}
