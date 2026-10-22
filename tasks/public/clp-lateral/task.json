@@ -1,0 +1,39 @@
+{
+  "id": "clp-lateral",
+  "repo": "container-loading-planner",
+  "kind": "synthetic",
+  "source_commit": null,
+  "base_commit": "ee4bd9325b44",
+  "subject": "validator: lateral centre of gravity uses item length instead of width",
+  "src_files": [
+    "_validator.py"
+  ],
+  "hidden_tests": [
+    "tests/test_validator_balance.py"
+  ],
+  "precedent": {
+    "level": "none",
+    "synthetic": true
+  },
+  "validation": {
+    "f2p": [
+      "tests/test_validator_balance.py"
+    ],
+    "p2p": [
+      "tests/test_app_contract.py",
+      "tests/test_browser_smoke_contract.py",
+      "tests/test_packer.py",
+      "tests/test_preflight.py",
+      "tests/test_text_quality.py",
+      "tests/test_validator.py"
+    ],
+    "env_failed": [],
+    "hidden_red": [
+      "tests/test_validator_balance.py"
+    ],
+    "hidden_not_run": [],
+    "visible_red": [],
+    "valid": true,
+    "suite_errors": []
+  }
+}

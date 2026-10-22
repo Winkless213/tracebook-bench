@@ -1,0 +1,11 @@
+diff --git a/app.py b/app.py
+--- a/app.py
++++ b/app.py
+@@ -250,7 +250,6 @@
+     text = _normalize_import_text(value)
+     if not text:
+         return None
+-    text = text.replace(",", "")
+     match = re.search(r"-?\d+(?:\.\d+)?", text)
+     if not match:
+         return None

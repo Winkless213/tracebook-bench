@@ -1,0 +1,12 @@
+diff --git a/_validator.py b/_validator.py
+--- a/_validator.py
++++ b/_validator.py
+@@ -116,7 +116,7 @@
+         footprint = upper.length * upper.width
+         if footprint <= EPS:
+             continue
+-        gross_load = upper.weight + loads[upper_idx]
++        gross_load = upper.weight
+         for lower_idx, lower in enumerate(placed):
+             if lower_idx == upper_idx:
+                 continue

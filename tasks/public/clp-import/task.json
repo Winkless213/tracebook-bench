@@ -1,0 +1,39 @@
+{
+  "id": "clp-import",
+  "repo": "container-loading-planner",
+  "kind": "synthetic",
+  "source_commit": null,
+  "base_commit": "ee4bd9325b44",
+  "subject": "import: thousands separators truncate manifest numbers",
+  "src_files": [
+    "app.py"
+  ],
+  "hidden_tests": [
+    "tests/test_import_numbers.py"
+  ],
+  "precedent": {
+    "level": "none",
+    "synthetic": true
+  },
+  "validation": {
+    "f2p": [
+      "tests/test_import_numbers.py"
+    ],
+    "p2p": [
+      "tests/test_app_contract.py",
+      "tests/test_browser_smoke_contract.py",
+      "tests/test_packer.py",
+      "tests/test_preflight.py",
+      "tests/test_text_quality.py",
+      "tests/test_validator.py"
+    ],
+    "env_failed": [],
+    "hidden_red": [
+      "tests/test_import_numbers.py"
+    ],
+    "hidden_not_run": [],
+    "visible_red": [],
+    "valid": true,
+    "suite_errors": []
+  }
+}

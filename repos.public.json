@@ -1,0 +1,11 @@
+{
+  "container-loading-planner": {
+    "commit": "ee4bd9325b44",
+    "remote": "https://github.com/Winkless213/container-loading-planner.git",
+    "public": true,
+    "suites": [
+      {"name": "tests", "cwd": ".", "cmd": "python3 -m pytest -q -p no:cacheprovider --continue-on-collection-errors tests", "format": "pytest"}
+    ],
+    "install": "pip3 install --break-system-packages --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ -r requirements-dev.txt pytest httpx"
+  }
+}

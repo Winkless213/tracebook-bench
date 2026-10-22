@@ -1,0 +1,12 @@
+diff --git a/_validator.py b/_validator.py
+--- a/_validator.py
++++ b/_validator.py
+@@ -316,7 +316,7 @@
+                 f"整柜重心位于柜长 {center_pct:.1f}% 处，偏离中部较多，请复核轴荷/偏载风险。",
+             ))
+         if W > EPS:
+-            center_y = sum((p.y + p.width / 2) * p.weight for p in placed) / total_weight
++            center_y = sum((p.y + p.length / 2) * p.weight for p in placed) / total_weight
+             center_y_pct = center_y / W * 100
+             if abs(center_y_pct - 50) > balance_warn_pct:
+                 issues.append(ValidationIssue(

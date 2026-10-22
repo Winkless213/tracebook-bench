@@ -1,0 +1,12 @@
+diff --git a/_validator.py b/_validator.py
+--- a/_validator.py
++++ b/_validator.py
+@@ -96,7 +96,7 @@
+     segment_len = container_length / segment_count
+     weights = [0.0 for _ in range(segment_count)]
+     for p in placed:
+-        center = p.x + p.length / 2
++        center = p.x
+         idx = int(center / segment_len) if segment_len > EPS else 0
+         idx = max(0, min(segment_count - 1, idx))
+         weights[idx] += p.weight
