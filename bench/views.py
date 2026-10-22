@@ -2,6 +2,7 @@
 
 product: everything except generation caches (dot directories).
 code:    product minus all session knowledge, leaving only the static code summaries (CODEBASE / MODULES).
+public:  a code view restricted to the named public repositories, for publishing.
 """
 import json
 import re
@@ -30,6 +31,23 @@ def code_view(src, dst):
     (root / "INDEX.md").write_text(index, encoding="utf-8", newline="\n")
 
 
+def public_view(src, dst, repos):
+    root, out = Path(src) / "knowledge", Path(dst) / "knowledge"
+    for repo in repos:
+        shutil.copytree(root / repo, out / repo)
+    shutil.copytree(Path(src) / "skills", Path(dst) / "skills")
+    catalog = json.loads((root / "catalog.json").read_text(encoding="utf-8"))
+    catalog["projects"] = [p for p in catalog["projects"] if p["name"] in repos]
+    (out / "catalog.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
+    row = re.compile(r"^\| \[([^\]]+)\]\(")
+    lines = [line for line in (root / "INDEX.md").read_text(encoding="utf-8").splitlines(keepends=True)
+             if not (m := row.match(line)) or m.group(1) in repos]
+    (out / "INDEX.md").write_text("".join(lines), encoding="utf-8", newline="\n")
+
+
 if __name__ == "__main__":
-    kind, src, dst = sys.argv[1:4]
-    {"product": product_view, "code": code_view}[kind](src, dst)
+    kind, src, dst, *repos = sys.argv[1:]
+    if kind == "public":
+        public_view(src, dst, repos)
+    else:
+        {"product": product_view, "code": code_view}[kind](src, dst)
