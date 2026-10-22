@@ -10,6 +10,13 @@ from bench.agent import CONDITIONS
 
 CONTRASTS = (("tb_skill", "agents_md"), ("tb_code", "agents_md"), ("tb_skill", "tb_code"), ("tb_always", "agents_md"),
              ("agents_md", "none"), ("tb_skill", "none"))
+# DeepSeek official deepseek-flash prices, CNY per 1M tokens, off-peak (2026-10; every run fell in off-peak hours)
+PRICE_CNY = {"input": 1.0, "cacheRead": 0.02, "output": 4.0}
+VERDICTS = {"useful": "有用", "harmful": "有害", "useless_and_costlier": "没用且更贵", "not_shown_useful": "未证明有用"}
+
+
+def cost_cny(r):
+    return sum(r["metrics"]["tokens"][k] * price for k, price in PRICE_CNY.items()) / 1e6
 
 
 def load_records(runs_dir):
@@ -50,7 +57,7 @@ def verdict(ci, token_ratio):
 def summarize(records, meta):
     solved = by_task(records, lambda r: r["resolved"])
     tokens = by_task(records, lambda r: r["metrics"]["tokens"]["totalTokens"])
-    out = {"conditions": {}, "contrasts": {}, "groups": {}}
+    out = {"conditions": {}, "contrasts": {}, "groups": {}, "total_cost_cny": sum(cost_cny(r) for r in records)}
     for c in CONDITIONS:
         rs = [r for r in records if r["condition"] == c]
         tasks = tasks_with(solved, c)
@@ -64,7 +71,7 @@ def summarize(records, meta):
                        "uncached": mean(r["metrics"]["tokens"]["input"] for r in rs),
                        "cacheRead": mean(r["metrics"]["tokens"]["cacheRead"] for r in rs),
                        "output": mean(r["metrics"]["tokens"]["output"] for r in rs)},
-            "cost_usd": mean(r["metrics"]["cost"] for r in rs),
+            "cost_cny": mean(cost_cny(r) for r in rs),
             "agent_secs": mean(r["agent_secs"] for r in rs), "timeouts": sum(r["timed_out"] for r in rs),
             "tool_calls": mean(sum(r["metrics"]["tools"].values()) for r in rs),
             "no_knowledge_touch": mean(r["knowledge_use"]["touches"] == 0 for r in rs)}
@@ -85,6 +92,33 @@ def summarize(records, meta):
     return out
 
 
+def pct(x):
+    return f"{100 * x:.0f}%"
+
+
+def markdown(summary):
+    """The README tables, rendered from the summary so no number is copied by hand."""
+    lines = ["| 组 | 解决率 | 3 次全解 | 至少 1 次 | 完整提示词 | 未缓存 | 输出 | 费用 | 代理耗时 | 工具调用 | 未打开知识 |",
+             "|---|---|---|---|---|---|---|---|---|---|---|"]
+    for c, s in summary["conditions"].items():
+        t = s["tokens"]
+        skipped = pct(s["no_knowledge_touch"]) if c in ("tb_skill", "tb_code") else "—"
+        lines.append(f"| `{c}` | {pct(s['resolved'])} | {pct(s['pass_all'])} | {pct(s['pass_any'])} | "
+                     f"{t['prompt'] / 1e4:.1f} 万 | {t['uncached'] / 1e4:.1f} 万 | {t['output'] / 1e4:.2f} 万 | "
+                     f"{s['cost_cny']:.2f} 元 | {s['agent_secs'] / 60:.1f} 分 | {s['tool_calls']:.0f} | {skipped} |")
+    lines += ["", "| 对比 | 差值 | 95% 置信区间 | 题数 | token 比 | 判定 |", "|---|---|---|---|---|---|"]
+    for name, ci in summary["contrasts"].items():
+        lines.append(f"| `{name}` | {100 * ci['diff']:+.1f} pp | [{100 * ci['low']:+.1f}, {100 * ci['high']:+.1f}] | "
+                     f"{ci['tasks']} | {ci['token_ratio']:.2f} | {VERDICTS[ci['verdict']]} |")
+    for field, title in (("precedent", "先例标签"), ("repo", "仓库")):
+        lines += ["", f"| {title} | 题数 | " + " | ".join(f"`{c}`" for c in CONDITIONS) + " |",
+                  "|---|---|" + "---|" * len(CONDITIONS)]
+        for group, row in summary["groups"][field].items():
+            lines.append(f"| {group} | {row['tasks']} | " + " | ".join(pct(row[c]) if c in row else "—" for c in CONDITIONS)
+                         + " |")
+    return "\n".join(lines) + "\n"
+
+
 def task_meta(task_dirs):
     meta = {}
     for d in map(Path, task_dirs):
@@ -98,12 +132,15 @@ def main():
     ap.add_argument("--runs", required=True)
     ap.add_argument("--tasks", nargs="+", required=True)
     ap.add_argument("--out")
+    ap.add_argument("--markdown")
     args = ap.parse_args()
     records, infra = load_records(args.runs)
     summary = summarize(records, task_meta(args.tasks)) | {"infra_failures_excluded": infra}
     text = json.dumps(summary, ensure_ascii=False, indent=2)
     if args.out:
         Path(args.out).write_text(text, encoding="utf-8", newline="\n")
+    if args.markdown:
+        Path(args.markdown).write_text(markdown(summary), encoding="utf-8", newline="\n")
     print(text)
 
 

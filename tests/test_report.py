@@ -1,4 +1,4 @@
-from bench.report import summarize, verdict
+from bench.report import markdown, summarize, verdict
 
 
 def record(task, condition, resolved, tokens=100):
@@ -33,6 +33,21 @@ def test_prompt_tokens_are_uncached_input_plus_cache_hits():
     s = summarize([a, record("t1", "agents_md", True, 100)], META)
     assert s["contrasts"]["tb_skill-agents_md"]["token_ratio"] == 3
     assert s["conditions"]["tb_skill"]["tokens"] == {"prompt": 300, "uncached": 100, "cacheRead": 200, "output": 0}
+
+
+def test_cost_uses_the_official_off_peak_prices():
+    r = record("t1", "agents_md", True, 1_000_000)
+    r["metrics"]["tokens"].update(cacheRead=1_000_000, output=1_000_000)
+    s = summarize([r], META)
+    assert round(s["conditions"]["agents_md"]["cost_cny"], 6) == 5.02
+    assert round(s["total_cost_cny"], 6) == 5.02
+
+
+def test_markdown_tables_carry_every_condition_and_contrast():
+    records = [record("t1", "tb_skill", True), record("t1", "agents_md", False)]
+    text = markdown(summarize(records, META))
+    assert "| `tb_skill` | 100%" in text and "| `agents_md` | 0%" in text
+    assert "| `tb_skill-agents_md` | +100.0 pp |" in text
 
 
 def test_verdict_follows_the_preregistered_rules():
