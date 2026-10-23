@@ -1,6 +1,7 @@
 """Build one Docker image per repository snapshot: agent base + source tree at the knowledge commit + installed deps."""
 import io
 import json
+import os
 import subprocess
 import tarfile
 import tempfile
@@ -25,7 +26,8 @@ def export_tree(clone, commit, dest):
 
 
 def build(repo, spec, clones_dir, log):
-    with tempfile.TemporaryDirectory(prefix=f"tb-img-{repo}-", dir="D:/tracebook-bench-work") as ctx:
+    # TB_WORK puts the build context on a disk with room for the source tree; unset means the system temp dir
+    with tempfile.TemporaryDirectory(prefix=f"tb-img-{repo}-", dir=os.environ.get("TB_WORK")) as ctx:
         ctx = Path(ctx)
         export_tree(Path(clones_dir) / repo, spec["commit"], ctx / "src")
         (ctx / "Dockerfile").write_text(DOCKERFILE.format(install=spec["install"]), encoding="utf-8", newline="\n")
