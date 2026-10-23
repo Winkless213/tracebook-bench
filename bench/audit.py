@@ -11,8 +11,9 @@ from pathlib import Path
 NETWORK = re.compile(r"tools/(search|fetch)|DEEPSEEK_API_KEY|\bcurl\b|\bwget\b|git (clone|fetch|pull|ls-remote)|"
                      r"npm (view|info|install|i)\b|pip3? (install|download)", re.I)
 SEARCH_API = re.compile(r"tools/(search|fetch)|DEEPSEEK_API_KEY")
+# curl -f reports a refused CONNECT as "returned error: 403"; the proxy answers every non-allowlisted host that way
 BLOCKED = re.compile(r"CONNECT tunnel failed, response 403|tunneling socket|Could not resolve host|EAI_AGAIN|ENOTFOUND|"
-                     r"ECONNREFUSED|Network is unreachable|E403", re.I)
+                     r"ECONNREFUSED|Network is unreachable|E403|returned error: 403", re.I)
 
 
 def network_attempts(events_text):
