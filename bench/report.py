@@ -10,7 +10,8 @@ from bench.agent import CONDITIONS
 
 CONTRASTS = (("tb_skill", "agents_md"), ("tb_code", "agents_md"), ("tb_skill", "tb_code"), ("tb_always", "agents_md"),
              ("agents_md", "none"), ("tb_skill", "none"))
-# DeepSeek official deepseek-flash prices, CNY per 1M tokens, off-peak (2026-10; every run fell in off-peak hours)
+# DeepSeek official deepseek-flash prices, CNY per 1M tokens, off-peak (2026-10); peak hours cost twice this
+# and are not applied, so conditions compare on one price (PREREGISTRATION deviation 7)
 PRICE_CNY = {"input": 1.0, "cacheRead": 0.02, "output": 4.0}
 VERDICTS = {"useful": "有用", "harmful": "有害", "useless_and_costlier": "没用且更贵", "not_shown_useful": "未证明有用"}
 
